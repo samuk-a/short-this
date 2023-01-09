@@ -31,12 +31,20 @@ class Shorter {
             }
         }
         const id = await hashId();
-        const [rows, _] = await db.execute(
-            'INSERT INTO urls (id, url, expires, custom_path) VALUES (?, ?, NOW()+INTERVAL 1 DAY, ?)',
-            [id, url, customPath ?? null]
-        );
-        if (!rows.affectedRows) {
-            console.error(rows);
+        try {
+            const [rows, _] = await db.execute(
+                'INSERT INTO urls (id, url, expires, custom_path) VALUES (?, ?, NOW()+INTERVAL 1 DAY, ?)',
+                [id, url, customPath ?? null]
+            );
+            if (!rows.affectedRows) {
+                console.error(rows);
+                return res.status(500).json({message: 'Saving error!'});
+            }
+        } catch (error) {
+            console.log(error)
+            console.log(id)
+            console.log(url)
+            console.log(customPath ?? null)
             return res.status(500).json({message: 'Saving error!'});
         }
         return res.status(201).json({message: 'URL Shortened', url: `${BASE_URL}/${customPath || id}`});
