@@ -1,7 +1,8 @@
 {
-  "name": "shortthis",
+  "name": "short-this",
   "version": "1.0.0",
   "description": "An API to short URLs",
+  "repository": {"url": "git@github.com:samuk-a/short-this.git"},
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
