@@ -21,17 +21,17 @@ class Shorter {
 
         const { url, customPath } = req.body;
 
-        if (customPath) {
-            const [rows, _] = await db.execute(
-                'SELECT * FROM urls WHERE custom_path = ? AND expires > CURRENT_TIMESTAMP ORDER BY expires DESC LIMIT 1',
-                [customPath]
-            );
-            if (rows.length > 0) {
-                return res.status(400).json({message: '`customPath` already exists!'});
-            }
-        }
-        const id = await hashId();
         try {
+            if (customPath) {
+                const [rows, _] = await db.execute(
+                    'SELECT * FROM urls WHERE custom_path = ? AND expires > CURRENT_TIMESTAMP ORDER BY expires DESC LIMIT 1',
+                    [customPath]
+                );
+                if (rows.length > 0) {
+                    return res.status(400).json({message: '`customPath` already exists!'});
+                }
+            }
+            const id = await hashId();
             const [rows, _] = await db.execute(
                 'INSERT INTO urls (id, url, expires, custom_path) VALUES (?, ?, NOW()+INTERVAL 1 DAY, ?)',
                 [id, url, customPath ?? null]
