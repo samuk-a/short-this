@@ -37,9 +37,9 @@ class Shorter {
                 [id, url, customPath ?? null]
             );
             if (!rows.affectedRows) {
-                console.error(rows);
-                return res.status(500).json({message: 'Saving error!'});
+                throw new Error("Sem linhas afetadas");
             }
+            return res.status(201).json({message: 'URL Shortened', url: `${BASE_URL}/${customPath || id}`});
         } catch (error) {
             console.log(error)
             console.log(id)
@@ -47,7 +47,6 @@ class Shorter {
             console.log(customPath ?? null)
             return res.status(500).json({message: 'Saving error!'});
         }
-        return res.status(201).json({message: 'URL Shortened', url: `${BASE_URL}/${customPath || id}`});
     }
 }
 
