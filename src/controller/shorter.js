@@ -33,7 +33,7 @@ class Shorter {
         const id = await hashId();
         const [rows, _] = await db.execute(
             'INSERT INTO urls (id, url, expires, custom_path) VALUES (?, ?, NOW()+INTERVAL 1 DAY, ?)',
-            [id, url, customPath || null]
+            [id, url, customPath ?? null]
         );
         if (!rows.affectedRows) {
             console.error(rows);
