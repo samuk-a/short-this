@@ -5,7 +5,7 @@ class Shorter {
     async get(req, res) {
         const { id } = req.params;
 
-        const [rows, _] = await db.execute(
+        const [rows] = await db.execute(
             'SELECT * FROM urls WHERE (id = ? OR custom_path = ?) AND expires > CURRENT_TIMESTAMP ORDER BY expires DESC LIMIT 1',
             [id, id]
         );
@@ -23,7 +23,7 @@ class Shorter {
 
         try {
             if (customPath) {
-                const [rows, _] = await db.execute(
+                const [rows] = await db.execute(
                     'SELECT * FROM urls WHERE custom_path = ? AND expires > CURRENT_TIMESTAMP ORDER BY expires DESC LIMIT 1',
                     [customPath]
                 );
@@ -32,7 +32,7 @@ class Shorter {
                 }
             }
             const id = await hashId();
-            const [rows, _] = await db.execute(
+            const [rows] = await db.execute(
                 'INSERT INTO urls (id, url, expires, custom_path) VALUES (?, ?, NOW()+INTERVAL 1 DAY, ?)',
                 [id, url, customPath ?? null]
             );

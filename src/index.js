@@ -4,7 +4,7 @@ const Shorter = require('./controller/shorter');
 
 const PORT = process.env.PORT || 8080;
 
-app = express();
+const app = express();
 
 app.use(express.json());
 
