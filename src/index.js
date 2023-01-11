@@ -5,6 +5,7 @@ const Shorter = require('./controller/shorter');
 const PORT = process.env.PORT || 8080;
 
 const app = express();
+app.disable("x-powered-by");
 
 app.use(express.json());
 
